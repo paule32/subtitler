@@ -4,6 +4,7 @@
 //#include "source/includes/mainwindow.h"
 #include <QPlainTextEdit>
 #include <QSyntaxHighlighter>
+#include <QScrollArea>
 
 class Highlighter;
 class EditorGutter;
@@ -27,6 +28,7 @@ public slots:
 private:
     class Highlighter  * highlighter;
     class EditorGutter * gutter;
+    QScrollArea        * scr1;
 public slots:
     void on_dockHelpOpen();
     void on_parseText();

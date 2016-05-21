@@ -13,6 +13,8 @@ MyEditor::MyEditor(QWidget *parent)
     gutter = new EditorGutter(this);
     lines  = 1;
 
+    scr1   = new QScrollArea(this);
+
     //connect(this, SIGNAL(blockCountChanged(int)  ), this, SLOT(updateGutterWidth(int)));
     connect(this, SIGNAL(cursorPositionChanged() ), this, SLOT(on_cursorPositionChanged()));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(on_linesUpdate(QRect,int)));
@@ -95,7 +97,13 @@ void MyEditor::on_cursorPositionChanged()
 }
 
 void MyEditor::on_gutterUpdate(int) {
+    scr1->hide();
     setViewportMargins(gutterWidth(), 0,0,0);
+
+    scr1->resize(440,(fontMetrics().height()*2)+1);
+    scr1->move(gutterWidth()+3,(fontMetrics().height()*2)+2);
+    scr1->setStyleSheet("background-color: lime;");
+    scr1->show();
 }
 
 void MyEditor::on_linesUpdate(const QRect &rect, int dy)
@@ -147,7 +155,7 @@ int MyEditor::gutterWidth()
         ++digits;
     }
 
-    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space = fontMetrics().width(QLatin1Char('9')) * digits;
 
     return space;
 }
