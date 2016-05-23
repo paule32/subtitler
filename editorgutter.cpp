@@ -59,10 +59,41 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Tab:
         insertPlainText("    ");
         break;
+
+    case Qt::Key_Down:
+    {
+        QTextEdit::ExtraSelection selection;
+        selection.cursor =     textCursor();
+
+        int y = selection.cursor.blockNumber () + 1;
+        int x = selection.cursor.columnNumber() + 1;
+
+        if (y == 1) {
+            moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
+            moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
+        }   else {
+            moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
+        }
+    }   break;
+    case Qt::Key_Up:
+    {
+        QTextEdit::ExtraSelection selection;
+        selection.cursor =     textCursor();
+
+        int y = selection.cursor.blockNumber () + 1;
+        int x = selection.cursor.columnNumber() + 1;
+
+        if (y == 3) {
+            moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
+            moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
+        }   else {
+            moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
+        }
+    }   break;
+
+    case Qt::Key_Backspace:
     case Qt::Key_Delete:
     {
-        QList<QTextEdit::ExtraSelection> extraSelections;
-
         QTextEdit::ExtraSelection selection;
         selection.cursor =     textCursor();
 
