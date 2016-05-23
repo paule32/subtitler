@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QPainter>
+#include <QMessageBox>
 
 extern class EditorGutter *gutter;
 
@@ -41,7 +42,7 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
     switch (event->key())
     {
     case Qt::Key_Escape:
-        //w->close();
+        qApp->quit();
         break;
 
     case Qt::Key_F1:
@@ -52,9 +53,25 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
         //on_parseText();
         break;
 
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+        break;
     case Qt::Key_Tab:
         insertPlainText("    ");
         break;
+    case Qt::Key_Delete:
+    {
+        QList<QTextEdit::ExtraSelection> extraSelections;
+
+        QTextEdit::ExtraSelection selection;
+        selection.cursor =     textCursor();
+
+        int y = selection.cursor.blockNumber () + 1;
+        int x = selection.cursor.columnNumber() + 1;
+
+        if (x == 1) return;
+        QPlainTextEdit::keyPressEvent(event);
+    }   break;
 
     default:
         QPlainTextEdit::keyPressEvent(event);
@@ -64,6 +81,7 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
 
 void MyEditor::mousePressEvent(class QMouseEvent  *event)
 {
+
     QPlainTextEdit::mousePressEvent(event);
     on_cursorPositionChanged();
 }
@@ -100,8 +118,15 @@ void MyEditor::on_gutterUpdate(int) {
     scr1->hide();
     setViewportMargins(gutterWidth(), 0,0,0);
 
-    scr1->resize(440,(fontMetrics().height()*2)+1);
-    scr1->move(gutterWidth()+3,(fontMetrics().height()*2)+2);
+    QTextCursor cursor = textCursor();
+    int y = cursor.blockNumber () + 1;
+    int x = cursor.columnNumber() + 1;
+
+    int fm = fontMetrics().height();
+    int y1 = fm * y;
+
+    scr1->resize(440,fm+3);
+    scr1->move(gutterWidth()+3,y1+4);
     scr1->setStyleSheet("background-color: lime;");
     scr1->show();
 }
