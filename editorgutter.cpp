@@ -2,19 +2,20 @@
 #include <QPainter>
 #include <QMessageBox>
 
-extern class EditorGutter *gutter;
+extern class EditorGutter * gutter;
+extern class MainWindow   * w;
 
 MyEditor::MyEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
-    setObjectName("dBaseEditor");
+    setObjectName("TitleEditor");
     setWordWrapMode(QTextOption::NoWrap);
     setAcceptDrops(true);
 
     gutter = new EditorGutter(this);
     lines  = 1;
 
-    scr1   = new QScrollArea(this);
+    //scr1   = new QScrollArea(this);
 
     //connect(this, SIGNAL(blockCountChanged(int)  ), this, SLOT(updateGutterWidth(int)));
     connect(this, SIGNAL(cursorPositionChanged() ), this, SLOT(on_cursorPositionChanged()));
@@ -37,6 +38,32 @@ void MyEditor::resizeEvent(QResizeEvent *event)
           cr.height()));
 }
 
+bool MyEditor::get_input1()
+{
+    QTextEdit::ExtraSelection selection;
+    selection.cursor =     textCursor();
+
+    int y = selection.cursor.blockNumber()+1;
+    int c = 0;
+
+    QMap<int, bool> m1;
+    QMap<int, bool> m2;
+
+    int c1 = -3;
+    int c2 = -2;
+
+    c = 0; while (c1 >= 2048) { c1 += 4; m1.insert(c1,y); }
+    c = 0; while (c2 >= 2048) { c2 += 4; m2.insert(c2,y); }
+
+    w->ui->label->setText(QString("---> c1: %1  c2: %2  y: %3  m1: %4  m2: %5")
+    .arg(c1).arg(c2).arg(y).arg(m1[y]).arg(m2[y]));
+
+    if (m1[y] == y) return false;
+    if (m2[y] == y) return false;
+
+    return true;
+}
+
 void MyEditor::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key())
@@ -57,6 +84,7 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Enter:
         break;
     case Qt::Key_Tab:
+        if (!get_input1())
         insertPlainText("    ");
         break;
 
@@ -64,36 +92,48 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
     {
         QTextEdit::ExtraSelection selection;
         selection.cursor =     textCursor();
-
-        int y = selection.cursor.blockNumber () + 1;
-        int x = selection.cursor.columnNumber() + 1;
-
-        if (y == 1) {
+        switch (selection.cursor.blockNumber()+1)  {
+        case 1:
+        case 5:
+        case 9:
+        case 13: case 17: case 21: case 25: case 29:
+        case 33: case 37: case 41: case 45: case 49:
+        case 53: case 57: case 61: case 65: case 69:
+        case 73: case 77: case 81: case 85: case 89:
+        {
             moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
             moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
-        }   else {
+        }   break;
+        default:
             moveCursor(QTextCursor::Down,QTextCursor::MoveAnchor);
-        }
-    }   break;
+            break; }
+    }       break;
     case Qt::Key_Up:
     {
         QTextEdit::ExtraSelection selection;
         selection.cursor =     textCursor();
 
-        int y = selection.cursor.blockNumber () + 1;
-        int x = selection.cursor.columnNumber() + 1;
-
-        if (y == 3) {
+        switch (selection.cursor.blockNumber()+1)  {
+        case 3:
+        case 7:
+        case 11:
+        case 15: case 19: case 23: case 27: case 31:
+        case 35: case 39: case 43: case 47: case 51:
+        case 55: case 59: case 63: case 67: case 71:
+        case 75: case 79: case 83: case 87: case 91:
+        {
             moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
             moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
-        }   else {
+        }   break;
+        default:
             moveCursor(QTextCursor::Up,QTextCursor::MoveAnchor);
-        }
-    }   break;
+            break; }
+    }       break;
 
     case Qt::Key_Backspace:
     case Qt::Key_Delete:
     {
+        if (get_input1()) return;
         QTextEdit::ExtraSelection selection;
         selection.cursor =     textCursor();
 
@@ -104,7 +144,22 @@ void MyEditor::keyPressEvent(QKeyEvent *event)
         QPlainTextEdit::keyPressEvent(event);
     }   break;
 
-    default:
+    case Qt::Key_0: case Qt::Key_1: case Qt::Key_2: case Qt::Key_3: case Qt::Key_4: case Qt::Key_5:
+    case Qt::Key_6: case Qt::Key_7: case Qt::Key_8: case Qt::Key_9:
+    case Qt::Key_A: case Qt::Key_B: case Qt::Key_C: case Qt::Key_D: case Qt::Key_E: case Qt::Key_F:
+    case Qt::Key_G: case Qt::Key_H: case Qt::Key_I: case Qt::Key_J: case Qt::Key_K: case Qt::Key_L:
+    case Qt::Key_M: case Qt::Key_N: case Qt::Key_O: case Qt::Key_P: case Qt::Key_Q: case Qt::Key_R:
+    case Qt::Key_S: case Qt::Key_T: case Qt::Key_U: case Qt::Key_V: case Qt::Key_W: case Qt::Key_X:
+    case Qt::Key_Y: case Qt::Key_Z:
+
+    case Qt::Key_Space:
+
+    case Qt::Key_Adiaeresis:
+    case Qt::Key_Odiaeresis:
+    case Qt::Key_Udiaeresis:    {
+        if (!get_input1()) return;
+        QPlainTextEdit::keyPressEvent(event);
+    }   break; default:
         QPlainTextEdit::keyPressEvent(event);
         break;
     }
@@ -146,9 +201,9 @@ void MyEditor::on_cursorPositionChanged()
 }
 
 void MyEditor::on_gutterUpdate(int) {
-    scr1->hide();
+    //scr1->hide();
     setViewportMargins(gutterWidth(), 0,0,0);
-
+/*
     QTextCursor cursor = textCursor();
     int y = cursor.blockNumber () + 1;
     int x = cursor.columnNumber() + 1;
@@ -157,9 +212,9 @@ void MyEditor::on_gutterUpdate(int) {
     int y1 = fm * y;
 
     scr1->resize(440,fm+3);
-    scr1->move(gutterWidth()+3,y1+4);
+    scr1->move(gutterWidth()+53,y1+4);
     scr1->setStyleSheet("background-color: lime;");
-    scr1->show();
+    scr1->show();*/
 }
 
 void MyEditor::on_linesUpdate(const QRect &rect, int dy)

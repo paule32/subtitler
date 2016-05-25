@@ -79,7 +79,15 @@
       <height>71</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget_3">
     <property name="geometry">
@@ -94,14 +102,58 @@
      <item>
       <widget class="MyEditor" name="plainTextEdit">
        <property name="plainText">
-        <string>ssss
-as
+        <string>1
+00:00:00,000 --&gt; 00:00:05,630
+[MUSIK]
 
-asdfasd
+2
+00:00:05,630 --&gt; 00:00:09,830
+The Apple TV is Apple's latest platform
+that can run third party apps.
+3
+00:00:09,830 --&gt; 00:00:12,850
+It runs an operating system called TVOS.
 
-ads
+4
+00:00:12,850 --&gt; 00:00:17,380
+This module is a basic introduction to
+TVOS and app development for Apple TV.
+5
+00:00:17,380 --&gt; 00:00:19,550
+Luckily we can leverage
+our swift skills and
+6
+00:00:19,550 --&gt; 00:00:22,080
+knowledge from iOS frameworks for AppleTV.
 
-asd</string>
+7
+00:00:22,080 --&gt; 00:00:26,460
+You'll find almost all of the same APIs
+and frameworks from iOS on the AppleTV OS
+8
+00:00:26,460 --&gt; 00:00:29,840
+as well with some small but
+important additions.
+9
+00:00:29,840 --&gt; 00:00:33,440
+Even the basic structure of apps is
+very similar, with storyboards and
+10
+00:00:33,440 --&gt; 00:00:35,780
+view controllers being
+central to your app.
+11
+00:00:35,780 --&gt; 00:00:39,560
+But the user interaction model for
+Apple TV apps is quite different.
+12
+00:00:39,560 --&gt; 00:00:43,471
+So we'll focus on some of these
+differences by adapting some of the code
+13
+00:00:43,471 --&gt; 00:00:47,462
+from the previous networking and
+persistence modules app for Apple TV.</string>
        </property>
       </widget>
      </item>

@@ -5,6 +5,7 @@
 #include <QPlainTextEdit>
 #include <QSyntaxHighlighter>
 #include <QScrollArea>
+#include <QMap>
 
 class Highlighter;
 class EditorGutter;
@@ -14,6 +15,7 @@ class MyEditor: public QPlainTextEdit
     Q_OBJECT
 public:
     explicit MyEditor  (class QWidget *parent = 0);
+    bool get_input1();
     void linePaintEvent(class QPaintEvent *event) ;
     int  gutterWidth();
     int  lines;
