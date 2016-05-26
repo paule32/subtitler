@@ -45,23 +45,29 @@ bool MyEditor::get_input1()
 
     int y = selection.cursor.blockNumber()+1;
     int c = 0;
+    int p = 2;
 
-    QMap<int, bool> m1;
     QMap<int, bool> m2;
 
-    int c1 = -3;
-    int c2 = -2;
+    m2.insert(1,false);
+    m2.insert(2,false);
 
-    c = 0; while (c1 >= 2048) { c1 += 4; m1.insert(c1,y); }
-    c = 0; while (c2 >= 2048) { c2 += 4; m2.insert(c2,y); }
+    for (c = 0; c < 2048; c++) {
+        ++p; m2.insert(p,true );
+        ++p; m2.insert(p,true );
 
-    w->ui->label->setText(QString("---> c1: %1  c2: %2  y: %3  m1: %4  m2: %5")
-    .arg(c1).arg(c2).arg(y).arg(m1[y]).arg(m2[y]));
+        ++p; m2.insert(p,false);
+        ++p; m2.insert(p,false);
+    }
 
-    if (m1[y] == y) return false;
-    if (m2[y] == y) return false;
+    if (m2[y] == true)
+    return true ;
+    return false;
+}
 
-    return true;
+void MyEditor::dragMoveEvent(QDragMoveEvent * e)
+{
+    e->ignore();
 }
 
 void MyEditor::keyPressEvent(QKeyEvent *event)

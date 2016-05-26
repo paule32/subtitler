@@ -23,6 +23,7 @@ protected:
     void mousePressEvent(class QMouseEvent  *event) Q_DECL_OVERRIDE;
     void keyPressEvent  (class QKeyEvent    *event) Q_DECL_OVERRIDE;
     void resizeEvent    (class QResizeEvent *event) Q_DECL_OVERRIDE;
+    void dragMoveEvent  (class QDragMoveEvent   *e) Q_DECL_OVERRIDE;
 public slots:
     void on_cursorPositionChanged();
     void on_gutterUpdate(int);
